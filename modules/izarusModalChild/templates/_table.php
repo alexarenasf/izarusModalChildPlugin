@@ -20,7 +20,7 @@
       <tr>
         <td colspan="<?php echo count($cols)+1; ?>"><?php echo $messages['empty']?></td>
       </tr>
-<?php else: ?>
+<?php else: ?> 
 <?php foreach($sf_data->getRaw('collection') AS $c): ?>
       <tr>
 <?php foreach($cols AS $col_name=>$text): ?>
@@ -29,7 +29,17 @@
           echo imc_parse_text($text,$c);
         else{
           preg_match_all('/\p{Lu}\p{Ll}*\P{Lu}/', get_class($c), $m);
-          include_partial(substr($text,1),array(strtolower(implode('_',$m[0]))=>$c));
+          $data = array();
+          $data[strtolower(implode('_',$m[0]))]=$c; 
+          $partial_array = explode('?',substr($text,1));
+          if(isset($partial_array[1])){
+            $parametro_valor = explode('&',$partial_array[1]);
+            foreach($parametro_valor AS $pv){
+              $parametro = explode('=',$pv);
+              $data[$parametro[0]]=isset($parametro[1])?$parametro[1]:'';
+            }
+          }
+          include_partial($partial_array[0],$data);
         }
         ?></td>
 <?php endforeach; ?>

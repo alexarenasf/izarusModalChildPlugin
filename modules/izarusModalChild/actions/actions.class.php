@@ -1,5 +1,5 @@
 <?php
-
+ 
 class izarusModalChildActions extends sfActions
 {
   public function executeProcessForm(sfWebRequest $request){
@@ -30,7 +30,7 @@ class izarusModalChildActions extends sfActions
       $id = $id['id'];
       $obj = $table_name::getInstance()->findOneById($id);
     }
-
+    
     if($action=='+' || ($request->isMethod('post') && count($del_id)<2 && !$obj)){
       $form = new $form_name();
     }else{
